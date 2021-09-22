@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  urlGames: "api/games",
+  urlJackpot: "api/jackPot"
 };

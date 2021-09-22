@@ -1,0 +1,21 @@
+{
+  "/api/jackpot": {
+    "target": "http://stage.whgstage.com/front-end-test/jackpots.php",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/api/jackpot": ""
+    }
+  },
+    "/api/games": {
+      "target": "http://stage.whgstage.com/front-end-test/games.php",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug",
+      "pathRewrite": {
+        "^/api/games": ""
+      }
+    }
+  
+}
