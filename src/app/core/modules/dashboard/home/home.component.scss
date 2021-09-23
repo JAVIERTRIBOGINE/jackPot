@@ -1,0 +1,23 @@
+#container-image {
+    background-color: lightgrey;
+}
+#second-container {
+    height: 300px;
+}
+
+.global-cards {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .item-card {
+        width: 40%;
+        margin: 5px;
+        // ::ng-deep p-card {
+            // .p-card {
+                // height: 400px;
+            // }
+        // }
+        
+    }
+}

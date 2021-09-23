@@ -1,0 +1,27 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { forkJoin, Observable, Subscription } from 'rxjs';
+
+@Component({
+  selector: 'app-footer',
+  templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.scss'],
+})
+export class FooterComponent implements OnInit, OnDestroy {
+
+  subscription$: Subscription = new Subscription();
+  subsLan: Subscription = new Subscription();
+  subsTrans: Subscription = new Subscription;
+  constructor(
+  ) {
+  }
+
+  ngOnInit(): void {
+  }
+  /**
+   * Cambios de traducciones ante posibles cambios de lenguage
+   */
+  
+  ngOnDestroy(){
+  }
+
+}
