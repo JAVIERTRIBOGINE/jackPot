@@ -1,81 +1,114 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { Games } from 'src/app/core/models/game';
-import { Jackpot } from 'src/app/core/models/jackpot';
-import { ApiService } from './api.service';
+import { Injectable } from "@angular/core";
+import { forkJoin, Observable, Subscription } from "rxjs";
+import { Games } from "src/app/core/models/game";
+import { Jackpot } from "src/app/core/models/jackpot";
+import { ApiService } from "./api.service";
+import { CATEGORIES } from "src/app/core/conf/constants"
+
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 
 export class CategoryService {
-
-  games: Observable<Games[]> = new Observable<Games[]>();
-  jackpot: Observable<Jackpot[]> = new Observable<Jackpot[]>();
+  idJackpots: string[] = []
+  games: Games[] = [];
+  jackpot: Jackpot[] = [];
   public amount: number | undefined;
+  dataFilled: boolean = false;
+  apiDataSubs$: Subscription = new Subscription();
+
   constructor(private apiService: ApiService) { }
 
-  async getData(): Promise<void> {
-    this.games = await this.apiService.getGames();
-    this.getJackPot();
+  getData(): void {
+    this.apiDataSubs$.add(
+      forkJoin([
+        this.apiService.getGames(),
+        this.apiService.getJackpot()]
+      ).subscribe(
+        ([games, jackpot]) => {
+          this.games = games;
+          this.jackpot = jackpot;
+          sessionStorage.setItem("game", JSON.stringify(this.games));
+          this.idJackpots = this.getJackpotIds(this.jackpot);
+
+          // create and storage filtered categories from games, according to constants
+          CATEGORIES.forEach(category => {
+            this.groupfilteredData(this.games, category);
+          });
+          this.dataFilled = true;
+
+        })
+    )
+    this.updateJackPot();
   }
 
-  async getJackPot(): Promise<void> {
-    setInterval(async () => {
-      this.jackpot = await this.apiService.getJasckpot();
-      console.log("jackpot cada 3 segundos: ", this.jackpot);
-      this.cachingData();
-      this.getJackPotAmount();
-
-    }, 3000);
-
-  }
-
-  cachingData() {
-    this.games.toPromise().then((_games: Games[]) => {
-      this.filterData(_games, 'new');
-      this.filterData(_games, 'top');
-      this.filterData(_games, 'slots');
-      this.filterData(_games, 'other');
-
-      sessionStorage.setItem('game', JSON.stringify(_games))
-    });
-    this.jackpot.toPromise().then(data => {
-      sessionStorage.setItem('jackpot', JSON.stringify(data));
-      this.amount = this.getJackPotAmount();
-    });
+  getJackpotIds(jackpotGames: Jackpot[]) {
+    let ids: string[] = []
+    jackpotGames.map((jackpotGame: Jackpot) => ids.push(jackpotGame.game))
+    return ids;
   }
 
 
-  filterData(data: Games[], tag: string) {
+  groupfilteredData(data: Games[], tag: string) {
     let category: string[];
     let filterCategory = data.filter(game => {
       category = game.categories;
-      return tag==='other'? 
-      !game.categories.includes('new') &&
-      !game.categories.includes('slots') &&
-      !game.categories.includes('top')
-       : game.categories.includes(tag);
+      // if the category is 'other' or 'jackpot' the
+      // way of filtering is another than the 'includes' function
+      return tag === "other" || tag === "jackpot" ?
+        this.specialCategories(game, tag) :
+        game.categories.includes(tag);
     });
+
+    // storage filtered category
     sessionStorage.setItem(tag, JSON.stringify(filterCategory))
   }
 
-  getCacehdCategory(tag: string) {
+
+  specialCategories(game: Games, tag: string) {
+    switch (tag) {
+      case "other":
+        let included: boolean = false;
+        CATEGORIES.forEach(category => {
+          included = included || game.categories.includes(category)
+        })
+        return !included;
+
+      case "jackpot":
+        return this.idJackpots.includes(game.id);
+
+      default:
+        return false;
+    }
+
+  }
+
+
+
+  updateJackPot(): void {
+    setInterval(() => {
+      this.apiService.getJackpot().subscribe((jackpot: Jackpot[]) => {
+        this.jackpot = jackpot;
+        sessionStorage.setItem("jackpotCat", JSON.stringify(this.jackpot));
+        this.amount = this.getJackPotAmount();
+      });
+    }, 3000);
+  }
+
+  getCachedCategory(tag: string) {
     let cachedData: string | null = sessionStorage.getItem(tag);
     let objectData: Games[] | null = !!cachedData ? JSON.parse(cachedData) : null;
     return objectData;
   }
 
   getJackPotAmount() {
-    // const dataJackpot = this.getCacehdCategory('jackpot');
-    let strJackpot: string | null = !! sessionStorage.getItem('jackpot')? sessionStorage.getItem('jackpot'): null;
-    let dataJackpot : Jackpot[] | null = !!strJackpot? JSON.parse(strJackpot) : null;
-    const jackpot = dataJackpot?.reduce((a,b) => a+parseInt( b.amount) , 0)
-    console.log("jackpot amount : ", jackpot);
+    const jackpot = this.jackpot.reduce((a, b) => a + (b.amount), 0)
     return jackpot;
-    
+  }
+
+  get dataIsFilled() {
+    return this.dataFilled;
   }
 
 

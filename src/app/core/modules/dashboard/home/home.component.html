@@ -1,25 +1,11 @@
-<!-- 
-    ESTA ES LA PAGINA QUE ALBERGARÁ LAS GRÁFICAS (REPORTING)
- -->
-<div   *ngIf="objectCategory?.length !== 0" class="p-grid p-d-flex p-jc-center">
-    <div  *ngFor="let data of objectCategory" class="p-col-12 p-md-4 p-lg-2 p-md-2">
-        <!-- <p-card> -->
-            <img width="100%" src="{{data.image}}"/>
-        <!-- </p-card> -->
+<ng-container *ngIf="thereIsData">
+    <div class="p-grid p-d-flex p-jc-center p-mt-1 home-container">
+        <div *ngFor="let data of objectCategory" class="p-col-12 p-md-4 p-lg-2 p-md-2">
+                <div  class="box">
+                    <div *ngIf="isNew(data.categories)" class="ribbon ribbon-top-right"><span>new</span></div>
+                    <div *ngIf="isTop(data.categories)" class="ribbon ribbon-top-left"><span>top</span></div>
+                    <img src="{{data.image}}" />
+                </div>
+        </div>
     </div>
-    
-</div>
-<!-- 
-<div class="global-cards flex">
-    <div class="item-card-2">
-        <p-card>
-            Content
-        </p-card>
-    </div>
-    <div class="item-card-2">
-        <p-card>
-            Content
-        </p-card>
-    </div>
-    
-</div> -->
+</ng-container>

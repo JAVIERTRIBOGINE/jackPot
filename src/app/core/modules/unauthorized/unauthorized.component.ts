@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { forkJoin, Observable, Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { forkJoin, Observable, Subscription } from "rxjs";
 
 @Component({
-  selector: 'app-unauthorized',
-  templateUrl: './unauthorized.component.html',
-  styleUrls: ['./unauthorized.component.scss'],
+  selector: "app-unauthorized",
+  templateUrl: "./unauthorized.component.html",
+  styleUrls: ["./unauthorized.component.scss"],
 })
 export class UnauthorizedComponent implements OnInit, OnDestroy {
 

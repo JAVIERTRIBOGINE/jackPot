@@ -1,9 +1,7 @@
 <header class="cont-header">
-<div class="cont-header__container-nav">
     <nav class="p-d-flex cont-header__nav">
       <p-menubar [model]="items">
-        <span class="badge">AMOUNT: <strong>$ {{categoryService.amount}}</strong> </span>
+        <p class="badge"><span class="title-amount">AMOUNT : </span> <span class="amount"><span class="symbol">$</span> {{categoryService.amount}}</span> </p>
       </p-menubar>
     </nav>
-  </div>
 </header>

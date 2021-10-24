@@ -1,14 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Observable } from 'rxjs';
-import { CategoryService } from 'src/app/core/services/category.service';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { MenuItem } from "primeng/api";
+import { CategoryService } from "src/app/core/services/category.service";
+import { CATEGORIES } from "src/app/core/conf/constants"
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.scss"],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   public items: MenuItem[] = []; // items que conformaran el nav de entidades
@@ -26,51 +24,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
 
   getMenu() {
-    let menuItems: MenuItem []= []
-
-    const newCat = this.getNewCategory();
-    if (newCat) menuItems.push(newCat);
-
-    const slots = this.getSlotsCategory();
-    if (slots) menuItems.push(slots);
-    
-    const other = this.getOtherCategory();
-    if (other) menuItems.push(other);
-    
-    const game = this.getGameCategory();
-    if (game) menuItems.push(game);
-
-
-    return menuItems.length ? menuItems : [];
+    let menuItems: MenuItem []= [];
+    let item: MenuItem;
+    CATEGORIES.forEach(category => {
+      item =  this.getCategory(category);
+      if (item) menuItems.push(item);
+    });
+    return menuItems;
   }
 
-  getNewCategory(): MenuItem {
-    const newCat: MenuItem = {
-      label: 'new',
-      routerLink: "/home/new"
+  getCategory(cat: string): MenuItem {
+    const catItem: MenuItem = {
+      label: cat,
+      routerLink: "/home/"+cat
     }
-    return newCat;
-  }
-  getSlotsCategory(): MenuItem {
-    const slots: MenuItem = {
-      label: 'slots',
-      routerLink: "/home/slots"
-    }
-    return slots;
-  }
-  getOtherCategory(): MenuItem {
-    const other: MenuItem = {
-      label: 'other',
-      routerLink: "/home/other"
-    }
-    return other;
-  }
-  getGameCategory(): MenuItem {
-    const game: MenuItem = {
-      label: 'game',
-      routerLink: "/home/game"
-    }
-    return game;
+    return catItem;
   }
 
   

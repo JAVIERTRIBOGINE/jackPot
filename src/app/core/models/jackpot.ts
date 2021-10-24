@@ -1,6 +1,6 @@
 
 export interface Jackpot
  {
-    categogame: string,
-    amount: string,
+    game: string,
+    amount: number,
 }

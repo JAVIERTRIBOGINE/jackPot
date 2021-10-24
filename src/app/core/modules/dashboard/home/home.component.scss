@@ -1,23 +1,113 @@
 #container-image {
-    background-color: lightgrey;
+  background-color: lightgrey;
 }
 #second-container {
-    height: 300px;
+  height: 300px;
 }
 
-.global-cards {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    .item-card {
-        width: 40%;
-        margin: 5px;
-        // ::ng-deep p-card {
-            // .p-card {
-                // height: 400px;
-            // }
-        // }
-        
+:host {
+  .home-container {
+    .box {
+      position: relative;
+
+      //ribbons styles 
+      .ribbon {
+        width: 55px;
+        height: 55px;
+        overflow: hidden;
+        position: absolute;
+        &::before,
+        &::after {
+          position: absolute;
+          z-index: -1;
+          content: "";
+          display: block;
+        }
+        & span {
+          position: absolute;
+          display: block;
+          padding: 5px 0;
+
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+          color: #fff;
+          font: 700 10px/1 "Lato", sans-serif;
+          text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+          text-transform: uppercase;
+          text-align: center;
+        }
+
+        // 'new' ribbon
+        &.ribbon-top-left {
+          top: -8px;
+          left: -6px;
+          & span {
+            background: linear-gradient(to right, #16547e 10%, #3498db, #7badce 50%, #3498db 60%, #16547e 90% );
+            right: -26px;
+            top: 9px;
+            width: 117px;
+
+            transform: rotate(-45deg);
+          }
+          &::before,
+          &::after {
+            border: 5px solid #16547e;
+            border-top-color: transparent;
+            border-left-color: transparent;
+          }
+          &::before {
+            top: 0;
+            right: 0;
+          }
+          &::after {
+            bottom: 0;
+            left: 0;
+          }
+        }
+
+        // 'top' ribbon
+        &.ribbon-top-right {
+          top: -8px;
+          right: -6px;
+          &::before,
+          &::after {
+            border: 5px solid #0d460b;
+            border-top-color: transparent;
+            border-right-color: transparent;
+          }
+          &::before {
+            top: 0;
+            left: 0;
+          }
+          &::after {
+            bottom: 0;
+            right: 0;
+          }
+          & span {
+            background-color: #39db34;
+            background: linear-gradient(to right, #0d460b 10%, #39db34, #a3cfa2 50%, #39db34 60%, #0d460b 90%);
+            left: -21px;
+            top: 14px;
+            width: 117px;
+            transform: rotate(45deg);
+          }
+        }
+      }
+     
+      // game pictures
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        transition: all 0.2s ease-in-out;
+      }
+
+      // hover state
+      &:hover img {
+        box-shadow: 2px 9px 10px #1e1e1d;
+      }
     }
+
+  }
 }
+
+

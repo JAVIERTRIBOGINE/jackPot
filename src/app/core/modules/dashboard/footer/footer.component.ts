@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { forkJoin, Observable, Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { forkJoin, Observable, Subscription } from "rxjs";
 
 @Component({
-  selector: 'app-footer',
-  templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss'],
+  selector: "app-footer",
+  templateUrl: "./footer.component.html",
+  styleUrls: ["./footer.component.scss"],
 })
 export class FooterComponent implements OnInit, OnDestroy {
 

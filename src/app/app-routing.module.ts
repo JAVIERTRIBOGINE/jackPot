@@ -1,23 +1,23 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
+    path: "",
+    redirectTo: "home",
+    pathMatch: "full"
   }, 
   {
-    path: 'home',
+    path: "home",
     loadChildren: () =>
-      import('src/app/core/modules/dashboard/dashboard.module').then(
+      import("src/app/core/modules/dashboard/dashboard.module").then(
         (m) => m.DashboardModule,
       )
   },
   {
-    path: 'unauthorized',
+    path: "unauthorized",
     loadChildren: () =>
-      import('src/app/core/modules/dashboard/dashboard.module').then(
+      import("src/app/core/modules/dashboard/dashboard.module").then(
         (m) => m.DashboardModule,
       )
   }

@@ -1,0 +1,1 @@
+export const CATEGORIES = ["slots", "new", "roulette", "top", "blackjack", "poker", "jackpot", "fun", "table", "other"]

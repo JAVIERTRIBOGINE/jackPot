@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FooterComponent } from './footer.component';
-import { HomeRoutingModule } from './footer-routing.module';
-import { CardModule } from 'primeng/card';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FooterComponent } from "./footer.component";
+import { HomeRoutingModule } from "./footer-routing.module";
+import { CardModule } from "primeng/card";
 
 @NgModule({
   declarations: [FooterComponent],
