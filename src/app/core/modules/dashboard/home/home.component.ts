@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   subscription$: Subscription = new Subscription();
   constructor(
     private router: Router,
-    private categoryService: CategoryService
+    public categoryService: CategoryService
   ) {
     this.objectCategory = [];
     this.router.events.subscribe(() => {

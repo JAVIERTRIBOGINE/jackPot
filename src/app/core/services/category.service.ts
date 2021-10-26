@@ -102,6 +102,20 @@ export class CategoryService {
     return objectData;
   }
 
+  getJackpot(game: Games) {
+    let jackpot:string | null = !!sessionStorage.getItem("jackpotCat")? sessionStorage.getItem("jackpotCat"):null;
+    let jackpotObj: Jackpot[] | null = !!jackpot? JSON.parse(jackpot): null;
+
+    console.log("jackpot", jackpotObj);
+    console.log("game", game);
+    let gameJackpot: Jackpot | undefined = jackpotObj?.find((item: Jackpot) => item.game === game.id);
+    return gameJackpot?.amount;
+
+    // let isJackpot: boolean = jackpot.find
+    return false;
+
+  }
+
   getJackPotAmount() {
     const jackpot = this.jackpot.reduce((a, b) => a + (b.amount), 0)
     return jackpot;
